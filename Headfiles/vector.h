@@ -53,7 +53,7 @@ public:
 	int size() const { return rsize; }
 	int capacity() const { return capa; }
 	int max_size() const { return INT_MAX; }
-	void push_back(T& value) {
+	void push_back(T value) {
 		if (rsize >= capa)
 		{
 			T& ndata = new T[capa * 2];
@@ -115,7 +115,7 @@ public:
 		p.rsize = tempsize;
 		p.capa = tempc;
 	}
-	int partition_less(int begin, int end) {
+	private int partition_less(int begin, int end) {
 		int target = data[begin];
 		int s = begin+1;
 		for (int i = begin+1; i < end; i++)
@@ -132,7 +132,7 @@ public:
 		data[s - 1] = target;
 		return s;
 	}
-	int partition_greater(int begin, int end) {
+	private int partition_greater(int begin, int end) {
 		int target = data[begin];
 		int s = begin + 1;
 		for (int i = begin + 1; i < end; i++)
@@ -149,7 +149,7 @@ public:
 		data[s - 1] = target;
 		return s;
 	}
-	void sort_less(int begin, int end) {
+	public void sort_less(int begin, int end) {
 		if (end - begin > 1) {
 			int nmid = partition_less(begin, end);
 			sort_less(begin, nmid-1);
@@ -170,5 +170,9 @@ public:
 		else if (cmp == "greater") {
 			sort_greater(begin, end);
 		}
+	}
+	T& operator [](int i)
+	{
+		return data[i];
 	}
 };
