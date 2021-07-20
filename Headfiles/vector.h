@@ -52,7 +52,7 @@ public:
 		rsize = 0;
 		capa = nsize;
 	}
-	vector(int nsize, const T& value) {
+	vector(int nsize, const T value) {
 		data = new T[nsize];
 		for (int i = 0; i < nsize; i++) {
 			data[i] = value;
@@ -119,10 +119,10 @@ public:
 			rsize--;
 		}
 	}
-	void insert(int index,T& value) {
+	void insert(int index,T value) {
 		if (rsize >= capa)
 		{
-			T& ndata = new T[capa * 2];
+			T* ndata = new T[capa * 2];
 			for (int i = 0; i < rsize; i++)
 			{
 				ndata[i] = data[i];
@@ -131,7 +131,7 @@ public:
 			data = ndata;
 			capa = capa * 2;
 		}
-		for (int i = index + 1; i < rsize + 1; i++)
+		for (int i = rsize;i>index; i--)
 		{
 			data[i] = data[i - 1];
 		}
