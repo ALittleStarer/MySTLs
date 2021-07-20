@@ -104,14 +104,71 @@ public:
 		data[index] = value;
 		rsize++;
 	}
-	void swap(vector& p);
+	void swap(vector& p){
+		T* temp = data;
+		int tempsize = rsize;
+		int tempc = capa;
+		data = p.data;
+		rsize = p.rsize;
+		capa = p.capa;
+		p.data = temp;
+		p.rsize = tempsize;
+		p.capa = tempc;
+	}
+	int partition_less(int begin, int end) {
+		int target = data[begin];
+		int s = begin+1;
+		for (int i = begin+1; i < end; i++)
+		{
+			if (data[i] < target)
+			{
+				T temp = data[i];
+				data[i] = data[s];
+				data[s] = temp;
+				s++;
+			}
+		}
+		data[begin] = data[s - 1];
+		data[s - 1] = target;
+		return s;
+	}
+	int partition_greater(int begin, int end) {
+		int target = data[begin];
+		int s = begin + 1;
+		for (int i = begin + 1; i < end; i++)
+		{
+			if (data[i] > target)
+			{
+				T temp = data[i];
+				data[i] = data[s];
+				data[s] = temp;
+				s++;
+			}
+		}
+		data[begin] = data[s - 1];
+		data[s - 1] = target;
+		return s;
+	}
 	void sort_less(int begin, int end) {
-
+		if (end - begin > 1) {
+			int nmid = partition_less(begin, end);
+			sort_less(begin, nmid-1);
+			sort_less(nmid, end);
+		}
 	}
 	void sort_greater(int begin, int end) {
-
+		if (end - begin > 1) {
+			int nmid = partition_greater(begin, end);
+			sort_greater(begin, nmid - 1);
+			sort_greater(nmid, end);
+		}
 	}
 	void sort(int begin, int end, string cmp) {
-
+		if (cmp == "less") {
+			sort_less(begin, end);
+		}
+		else if (cmp == "greater") {
+			sort_greater(begin, end);
+		}
 	}
 };
