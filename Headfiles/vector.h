@@ -7,6 +7,40 @@ private:
 	T* data;
 	int rsize;
 	int capa;
+	int partition_less(int begin, int end) {
+		int target = data[begin];
+		int s = begin + 1;
+		for (int i = begin + 1; i < end; i++)
+		{
+			if (data[i] < target)
+			{
+				T temp = data[i];
+				data[i] = data[s];
+				data[s] = temp;
+				s++;
+			}
+		}
+		data[begin] = data[s - 1];
+		data[s - 1] = target;
+		return s;
+	}
+	int partition_greater(int begin, int end) {
+		int target = data[begin];
+		int s = begin + 1;
+		for (int i = begin + 1; i < end; i++)
+		{
+			if (data[i] > target)
+			{
+				T temp = data[i];
+				data[i] = data[s];
+				data[s] = temp;
+				s++;
+			}
+		}
+		data[begin] = data[s - 1];
+		data[s - 1] = target;
+		return s;
+	}
 public:
 	vector() {
 		data = new T[1024];
@@ -35,7 +69,7 @@ public:
 		}
 		capa = copy.capa;
 	}
-	vector(int begin, int end, const, vector& copy) {
+	vector(int begin, int end, const vector& copy) {
 		data = new T[end - begin];
 		rsize = end - begin;
 		for (int i = 0; i < rsize; i++)
@@ -56,7 +90,7 @@ public:
 	void push_back(T value) {
 		if (rsize >= capa)
 		{
-			T& ndata = new T[capa * 2];
+			T* ndata = new T[capa * 2];
 			for (int i = 0; i < rsize; i++)
 			{
 				ndata[i] = data[i];
@@ -115,41 +149,7 @@ public:
 		p.rsize = tempsize;
 		p.capa = tempc;
 	}
-	private int partition_less(int begin, int end) {
-		int target = data[begin];
-		int s = begin+1;
-		for (int i = begin+1; i < end; i++)
-		{
-			if (data[i] < target)
-			{
-				T temp = data[i];
-				data[i] = data[s];
-				data[s] = temp;
-				s++;
-			}
-		}
-		data[begin] = data[s - 1];
-		data[s - 1] = target;
-		return s;
-	}
-	private int partition_greater(int begin, int end) {
-		int target = data[begin];
-		int s = begin + 1;
-		for (int i = begin + 1; i < end; i++)
-		{
-			if (data[i] > target)
-			{
-				T temp = data[i];
-				data[i] = data[s];
-				data[s] = temp;
-				s++;
-			}
-		}
-		data[begin] = data[s - 1];
-		data[s - 1] = target;
-		return s;
-	}
-	public void sort_less(int begin, int end) {
+	void sort_less(int begin, int end) {
 		if (end - begin > 1) {
 			int nmid = partition_less(begin, end);
 			sort_less(begin, nmid-1);
