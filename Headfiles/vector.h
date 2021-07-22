@@ -42,6 +42,14 @@ private:
 		return s;
 	}
 public:
+	typedef T* iterator;
+	typedef const T* const_iterator;
+	iterator begin() {
+		return data;
+	}
+	iterator end() {
+		return data + rsize;
+	}
 	vector() {
 		data = new T[1024];
 		rsize = 0;
@@ -107,19 +115,26 @@ public:
 			rsize--;
 	}
 	bool empty() { return rsize == 0; }
+	T& at(int index) { return data[index]; }
 	T& front() { return data[0]; }
 	T& back() { return data[rsize - 1]; }
-	void erase(int index) {
+	iterator erase(iterator index) {
 		if (rsize > 0)
 		{
-			for (int i = index; i < rsize - 1; i++)
+			for (iterator i = index; i < end(); i++)
 			{
-				data[i] = data[i + 1];
+				*i = *(i + 1);
 			}
 			rsize--;
 		}
+		if (index >= end()) {
+			return NULL;
+		}
+		else {
+			return index;
+		}
 	}
-	void insert(int index,T value) {
+	iterator insert(iterator it, const T& value) {
 		if (rsize >= capa)
 		{
 			T* ndata = new T[capa * 2];
@@ -127,16 +142,32 @@ public:
 			{
 				ndata[i] = data[i];
 			}
+			it = ndata + (it - data);
 			delete[]data;
 			data = ndata;
 			capa = capa * 2;
 		}
-		for (int i = rsize;i>index; i--)
+		for (iterator i = end(); i > it; i--)
 		{
-			data[i] = data[i - 1];
+			*i = *(i - 1);
 		}
-		data[index] = value;
+		*it = value;
 		rsize++;
+		return it;
+	}
+	iterator insert(iterator it, int n, const T& value) {
+		for (int i = 0; i < n; i++) {
+			it = insert(it, value);
+			it++;
+		}
+		return it;
+	}
+	iterator insert(iterator it, const_iterator begin, const_iterator end) {
+		for (iterator p = (iterator)begin; p < end; p++) {
+			it = insert(it, *p);
+			it++;
+		}
+		return it;
 	}
 	void swap(vector& p){
 		T* temp = data;
