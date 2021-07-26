@@ -1,9 +1,7 @@
 #pragma once
-#include"common.h"
-class queue {
-	
-};
-
-class priority_queue {
-
-};
+#include"common_queue.h"
+#include"priority_queue.h"
+/*
+class queue;
+class priority_queue;
+*/
