@@ -193,7 +193,7 @@ void heap<T, greater<T>>::push(const T& value) {
 
 template<class T>
 void heap<T, greater<T>>::pop() {
-	if (size() > 0) {
+	if (size() > 1) {
 		values[0]->value = values[size() - 1]->value;
 		if (values[values.size() / 2 - 1]->left->index == values.size() - 1) {
 			values[values.size() / 2 - 1]->left = NULL;
