@@ -125,8 +125,16 @@ void heap<T, pr>::push(const T& value) {
 
 template<class T, typename pr>
 void heap<T, pr>::pop() {
-	if (size() > 0) {
+	if (size() > 1) {
 		values[0]->value = values[size() - 1]->value;
+		if (values[values.size() / 2 - 1]->left->index == values.size() - 1) {
+			values[values.size() / 2 - 1]->left = NULL;
+		}
+		else {
+			values[values.size() / 2 - 1]->right = NULL;
+		}
+		delete values[values.size() - 1];
+		values[values.size() - 1] = NULL;
 		values.erase(values.end() - 1);
 		int cur = 0;
 		while (!((values[cur]->left == NULL || values[cur]->left->value >= values[cur]->value)
@@ -147,6 +155,11 @@ void heap<T, pr>::pop() {
 				cur = values[cur]->left->index;
 			}
 		}
+	}
+	else if (size() == 1) {
+		delete  values[0];
+		values[0] = NULL;
+		values.erase(values.begin());
 	}
 }
 
@@ -182,6 +195,12 @@ template<class T>
 void heap<T, greater<T>>::pop() {
 	if (size() > 0) {
 		values[0]->value = values[size() - 1]->value;
+		if (values[values.size() / 2 - 1]->left->index == values.size() - 1) {
+			values[values.size() / 2 - 1]->left = NULL;
+		}
+		else {
+			values[values.size() / 2 - 1]->right = NULL;
+		}
 		delete values[values.size() - 1];
 		values[values.size() - 1] = NULL;
 		values.erase(values.end() - 1);
@@ -204,6 +223,11 @@ void heap<T, greater<T>>::pop() {
 				cur = values[cur]->left->index;
 			}
 		}
+	}
+	else if (size() == 1) {
+		delete  values[0];
+		values[0] = NULL;
+		values.erase(values.begin());
 	}
 }
 
