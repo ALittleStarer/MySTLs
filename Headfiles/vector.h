@@ -206,4 +206,7 @@ public:
 	{
 		return data[i];
 	}
+	void clear() {
+		rsize = 0;
+	}
 };

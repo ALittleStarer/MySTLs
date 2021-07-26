@@ -50,12 +50,11 @@ queue<T>::~queue() {
 template<class  T>
 void queue<T>::push(const T& value) {
 	if (nsize >= capacity) {
-		T* ndata = new T[capa * 2];
-		for (int i = 0; i < rsize; i++)
+		T* ndata = new T[capacity * 2];
+		for (int i = 0; i < nsize; i++)
 		{
 			ndata[i] = data[i];
 		}
-		it = ndata + (it - data);
 		delete[]data;
 		data = ndata;
 		capacity = capacity * 2;
